@@ -5,8 +5,6 @@ import idea.verlif.parser.impl.DoubleParser;
 import idea.verlif.parser.impl.IntegerParser;
 import idea.verlif.parser.impl.StringParser;
 
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -33,16 +31,8 @@ public class ParamParserService {
      * @return 是否添加或替换成功
      */
     public boolean addOrReplace(ParamParser<?> parser) {
-        Type[] types = parser.getClass().getGenericInterfaces();
-        for (Type type : types) {
-            try {
-                for (Type argument : ((ParameterizedType) type).getActualTypeArguments()) {
-                    Class<?> cl = Class.forName(argument.getTypeName());
-                    parserMap.put(cl, parser);
-                    return true;
-                }
-            } catch (Exception ignored) {
-            }
+        for (Class<?> match : parser.match()) {
+            parserMap.put(match, parser);
         }
         return false;
     }

@@ -1,9 +1,34 @@
 package idea.verlif.parser;
 
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @author Verlif
  */
 public interface ParamParser<T> {
+
+    /**
+     * 解析器匹配的参数类型
+     *
+     * @return 参数类型列表
+     */
+    default Class<?>[] match() {
+        Type[] types = getClass().getGenericInterfaces();
+        List<Class<?>> list = new ArrayList<>();
+        for (Type type : types) {
+            try {
+                for (Type argument : ((ParameterizedType) type).getActualTypeArguments()) {
+                    Class<?> cl = Class.forName(argument.getTypeName());
+                    list.add(cl);
+                }
+            } catch (Exception ignored) {
+            }
+        }
+        return list.toArray(new Class[]{});
+    }
 
     /**
      * 文本解析为对象
