@@ -44,7 +44,15 @@ public class ParamParserService {
      * @param <T> 参数泛型
      * @return 参数解析器，可能为null
      */
-    public <T> ParamParser<T> getParser(Class<T> cl) {
-        return (ParamParser<T>) parserMap.get(cl);
+    public <T> ParamParser<T> getParser(Class<?> cl) {
+        ParamParser<?> pp;
+        do {
+            pp = parserMap.get(cl);
+            if (pp != null) {
+                break;
+            }
+            cl = cl.getSuperclass();
+        } while (cl != null);
+        return (ParamParser<T>) pp;
     }
 }

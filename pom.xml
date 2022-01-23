@@ -6,7 +6,7 @@
 
     <groupId>idea.verlif</groupId>
     <artifactId>ParamParser</artifactId>
-    <version>Beta-0.1</version>
+    <version>Alpha-0.1</version>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
