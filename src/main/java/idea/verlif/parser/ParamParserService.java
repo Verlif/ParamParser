@@ -31,10 +31,14 @@ public class ParamParserService {
      * @return 是否添加或替换成功
      */
     public boolean addOrReplace(ParamParser<?> parser) {
-        for (Class<?> match : parser.match()) {
+        Class<?>[] cls = parser.match();
+        if (cls.length == 0) {
+            return false;
+        }
+        for (Class<?> match : cls) {
             parserMap.put(match, parser);
         }
-        return false;
+        return true;
     }
 
     /**

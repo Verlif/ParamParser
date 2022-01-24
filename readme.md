@@ -40,8 +40,8 @@
 >    <dependencies>
 >        <dependency>
 >            <groupId>com.github.Verlif</groupId>
->            <artifactId>ParamParser</artifactId>
->            <version>alpha-0.1</version>
+>            <artifactId>param-parser</artifactId>
+>            <version>alpha-0.2</version>
 >        </dependency>
 >    </dependencies>
 > ```
@@ -49,7 +49,7 @@
 > Gradle
 > ```text
 > dependencies {
->   implementation 'com.github.Verlif:ParamParser:alpha-0.1'
+>   implementation 'com.github.Verlif:param-parser:alpha-0.2'
 > }
 > ```
 
