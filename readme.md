@@ -42,7 +42,7 @@
 >        <dependency>
 >            <groupId>com.github.Verlif</groupId>
 >            <artifactId>param-parser</artifactId>
->            <version>alpha-0.2</version>
+>            <version>0.1</version>
 >        </dependency>
 >    </dependencies>
 > ```
