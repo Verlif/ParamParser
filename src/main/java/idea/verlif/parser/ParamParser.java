@@ -35,6 +35,7 @@ public interface ParamParser<T> {
      *
      * @param param 文本内容。可能为null，请注意处理空值。
      * @return 解析出的对象
+     * @throws RuntimeException 请注意可能会抛出解析异常。这些异常都表示输入的字符串格式与预期不符。
      */
     T parser(String param);
 }

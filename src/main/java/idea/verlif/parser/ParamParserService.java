@@ -1,9 +1,6 @@
 package idea.verlif.parser;
 
-import idea.verlif.parser.impl.BooleanParser;
-import idea.verlif.parser.impl.DoubleParser;
-import idea.verlif.parser.impl.IntegerParser;
-import idea.verlif.parser.impl.StringParser;
+import idea.verlif.parser.impl.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -22,6 +19,7 @@ public class ParamParserService {
         addOrReplace(new IntegerParser());
         addOrReplace(new DoubleParser());
         addOrReplace(new BooleanParser());
+        addOrReplace(new DateParser());
     }
 
     /**
@@ -42,7 +40,7 @@ public class ParamParserService {
     }
 
     /**
-     * 获取参数解析器
+     * 获取指定类型的参数解析器
      *
      * @param cl  参数类型
      * @param <T> 参数泛型
@@ -59,4 +57,5 @@ public class ParamParserService {
         } while (cl != null);
         return (ParamParser<T>) pp;
     }
+
 }

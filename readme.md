@@ -9,6 +9,7 @@
 * `Integer`与`int`
 * `Double`与`double`
 * `Boolean`与`boolean`
+* `Date`（允许格式 - 'hh:mm:ss'、'yyyy/MM/dd'、'yyyy/MM/dd hh:mm:ss'等）
 
 ## 使用方法
 
