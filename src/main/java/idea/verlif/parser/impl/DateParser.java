@@ -24,6 +24,17 @@ public class DateParser implements ParamParser<Date> {
      */
     private static final int[] TIME_BASE = new int[]{3600000, 60000, 1000};
 
+    /**
+     * 解析文本到时间格式
+     *
+     * @param param 文本内容。可能为null，请注意处理空值。<br/>
+     *              <ul>
+     *                  <li> yyyy/MM/dd - 当天的0点0分0秒0毫秒 </li>
+     *                  <li> HH:mm:ss.sss - 今天的HH点mm分ss秒sss毫秒（毫秒可忽略） </li>
+     *                  <li> yyyy/MM/dd HH:mm:ss.sss - 如文本所示时间 </li>
+     *              </ul>
+     * @return 解析的时间，若条件都不符合，则返回当前时间。
+     */
     @Override
     public Date parser(String param) {
         String trim;
