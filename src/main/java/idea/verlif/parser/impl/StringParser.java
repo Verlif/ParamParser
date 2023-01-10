@@ -1,11 +1,12 @@
 package idea.verlif.parser.impl;
 
+import idea.verlif.parser.NullValueParser;
 import idea.verlif.parser.ParamParser;
 
 /**
  * @author Verlif
  */
-public class StringParser implements ParamParser<String> {
+public class StringParser extends ParamParser<String> {
 
     @Override
     public Class<?>[] match() {
@@ -15,5 +16,13 @@ public class StringParser implements ParamParser<String> {
     @Override
     public String parser(String param) {
         return param;
+    }
+
+    public final static class EmptyStringValueParser implements NullValueParser<String> {
+
+        @Override
+        public String parserNull() {
+            return "";
+        }
     }
 }

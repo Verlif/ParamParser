@@ -1,9 +1,11 @@
 package idea.verlif.parser.impl;
 
+import idea.verlif.parser.NullValueParser;
 import idea.verlif.parser.ParamParser;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -11,13 +13,11 @@ import java.util.Date;
  *
  * @author Verlif
  * @version 1.0
- * @date 2022/1/26 9:31
  */
-public class DateParser implements ParamParser<Date> {
+public class DateParser extends ParamParser<Date> {
 
-    private static final String[] DATE_SPLIT = new String[]{"-", "/", "\\"};
+    private static final char[] DATE_SPLIT = new char[]{'-', '/', '\\'};
     private static final String TIME_SPLIT = ":";
-    private static final String[] MS_SPLIT = new String[]{"\\."};
 
     /**
      * 时间进制，转换为毫秒的比例。按顺序分别为 时、分、秒，共计3个。
@@ -41,55 +41,100 @@ public class DateParser implements ParamParser<Date> {
         if (param == null || (trim = param.trim()).length() == 0) {
             return new Date();
         }
+        // 通过空格隔开日期与时间
         String[] split = trim.split(" ");
-        long time = getDateDay(split[0]);
-        if (split.length > 1) {
-            time += getTime(split[1]);
-        } else if (param.contains(TIME_SPLIT)) {
-            return new Date(getToday() + getTime(split[0]));
-        }
-        return new Date(time);
-    }
-
-    private long getDateDay(String day) {
-        for (String split : DATE_SPLIT) {
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy" + split + "MM" + split + "dd");
-            try {
-                Date date = sdf.parse(day);
-                return date.getTime();
-            } catch (ParseException ignored) {
+        /*
+            先判断类型：
+            长度 1 - 可能只有日期或是只有时间
+            长度 2 - 同时有日期与时间
+         */
+        char[] chars = param.toCharArray();
+        if (split.length == 1) {
+            // 仅时间
+            if (contains(chars, TIME_SPLIT.charAt(0))) {
+                return new Date(getToday() + getTime(param));
+            }
+            // 仅日期
+            Long date = getDateDay(param);
+            // 无法解析日期
+            if (date == null) {
+                return nullValueParser.parserNull();
+            } else {
+                return new Date(date);
+            }
+        } else {
+            Long date = getDateDay(split[0]);
+            if (date == null) {
+                return nullValueParser.parserNull();
+            } else {
+                return new Date(date + getTime(split[1]));
             }
         }
-        return System.currentTimeMillis();
+    }
+
+    private Long getDateDay(String day) {
+        char[] chars = day.toCharArray();
+        Date date = null;
+        for (char split : DATE_SPLIT) {
+            if (contains(chars, split)) {
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy" + split + "MM" + split + "dd");
+                try {
+                    date = sdf.parse(day);
+                } catch (ParseException ignored) {
+                    date = nullValueParser.parserNull();
+                    break;
+                }
+            }
+        }
+        if (date == null) {
+            return null;
+        } else {
+            return date.getTime();
+        }
+    }
+
+    private boolean contains(char[] chars, char c) {
+        for (char aChar : chars) {
+            if (aChar == c) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private long getTime(String time) {
         long count = 0;
-        String[] times = new String[]{"0"};
-        // 毫秒判定
-        for (String split : MS_SPLIT) {
-            times = time.split(split);
-            if (times.length > 1) {
-                break;
-            }
+        // 存在毫秒
+        if (time.length() > 9) {
+            count += Integer.parseInt(time.substring(9));
         }
-        String sec = times[0];
+        if (time.length() < 8) {
+            return count;
+        }
+        String sec = time.substring(0, 8);
         String[] secs = sec.split(TIME_SPLIT);
         if (secs.length > 1) {
             for (int i = 0; i < secs.length && i < TIME_BASE.length; i++) {
                 count += (long) Integer.parseInt(secs[i]) * TIME_BASE[i];
             }
         }
-        // 若存在毫秒
-        if (times.length > 1) {
-            count += Integer.parseInt(times[1]);
-        }
         return count;
     }
 
-    private long getToday() {
-        // TODO: 需要优化
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
-        return getDateDay(sdf.format(new Date()));
+    private Long getToday() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+        return calendar.getTime().getTime();
+    }
+
+    public final static class NowDateValueParser implements NullValueParser<Date> {
+
+        @Override
+        public Date parserNull() {
+            return new Date();
+        }
     }
 }

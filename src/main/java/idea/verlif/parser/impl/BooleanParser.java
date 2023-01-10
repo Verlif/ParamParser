@@ -1,11 +1,12 @@
 package idea.verlif.parser.impl;
 
+import idea.verlif.parser.NullValueParser;
 import idea.verlif.parser.ParamParser;
 
 /**
  * @author Verlif
  */
-public class BooleanParser implements ParamParser<Boolean> {
+public class BooleanParser extends ParamParser<Boolean> {
 
     private static final char[] TRUE = new char[]{'t', 'T', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
 
@@ -28,7 +29,7 @@ public class BooleanParser implements ParamParser<Boolean> {
     @Override
     public Boolean parser(String param) {
         if (param == null) {
-            return false;
+            return nullValueParser.parserNull();
         }
         char c = param.charAt(0);
         for (char c1 : TRUE) {
@@ -37,5 +38,21 @@ public class BooleanParser implements ParamParser<Boolean> {
             }
         }
         return false;
+    }
+
+    public final static class TrueValueParser implements NullValueParser<Boolean> {
+
+        @Override
+        public Boolean parserNull() {
+            return true;
+        }
+    }
+
+    public final static class FalseValueParser implements NullValueParser<Boolean> {
+
+        @Override
+        public Boolean parserNull() {
+            return false;
+        }
     }
 }
