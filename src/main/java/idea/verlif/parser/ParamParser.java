@@ -1,6 +1,5 @@
 package idea.verlif.parser;
 
-import com.sun.istack.internal.NotNull;
 import idea.verlif.parser.valueparser.SameNullValueParser;
 
 import java.lang.reflect.ParameterizedType;
@@ -62,10 +61,11 @@ public abstract class ParamParser<T> {
      * @return 解析出的对象
      * @throws RuntimeException 请注意可能会抛出解析异常。这些异常都表示输入的字符串格式与预期不符。
      */
-    protected abstract T convert(@NotNull String param);
+    protected abstract T convert(String param);
 
     /**
      * 设置空值转换器
+     *
      * @param nullValueParser 空置转换器
      */
     public void setNullValueParser(NullValueParser<T> nullValueParser) {
