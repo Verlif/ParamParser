@@ -27,7 +27,7 @@ public class DateParser extends ParamParser<Date> {
     /**
      * 解析文本到时间格式
      *
-     * @param param 文本内容。可能为null，请注意处理空值。<br/>
+     * @param param 文本内容，不为空。<br/>
      *              <ul>
      *                  <li> yyyy/MM/dd - 当天的0点0分0秒0毫秒 </li>
      *                  <li> HH:mm:ss.sss - 今天的HH点mm分ss秒sss毫秒（毫秒可忽略） </li>
@@ -36,7 +36,7 @@ public class DateParser extends ParamParser<Date> {
      * @return 解析的时间，若条件都不符合，则返回当前时间。
      */
     @Override
-    public Date parser(String param) {
+    public Date convert(String param) {
         String trim;
         if (param == null || (trim = param.trim()).length() == 0) {
             return new Date();
@@ -58,14 +58,14 @@ public class DateParser extends ParamParser<Date> {
             Long date = getDateDay(param);
             // 无法解析日期
             if (date == null) {
-                return nullValueParser.parserNull();
+                return null;
             } else {
                 return new Date(date);
             }
         } else {
             Long date = getDateDay(split[0]);
             if (date == null) {
-                return nullValueParser.parserNull();
+                return null;
             } else {
                 return new Date(date + getTime(split[1]));
             }
@@ -81,7 +81,7 @@ public class DateParser extends ParamParser<Date> {
                 try {
                     date = sdf.parse(day);
                 } catch (ParseException ignored) {
-                    date = nullValueParser.parserNull();
+                    date = null;
                     break;
                 }
             }
@@ -93,25 +93,17 @@ public class DateParser extends ParamParser<Date> {
         }
     }
 
-    private boolean contains(char[] chars, char c) {
-        for (char aChar : chars) {
-            if (aChar == c) {
-                return true;
-            }
-        }
-        return false;
-    }
-
     private long getTime(String time) {
         long count = 0;
+        int msPoint = time.indexOf('.');
+        String sec;
         // 存在毫秒
-        if (time.length() > 9) {
-            count += Integer.parseInt(time.substring(9));
+        if (msPoint > -1) {
+            count += Integer.parseInt(time.substring(msPoint));
+            sec = time.substring(0, msPoint);
+        } else {
+            sec = time;
         }
-        if (time.length() < 8) {
-            return count;
-        }
-        String sec = time.substring(0, 8);
         String[] secs = sec.split(TIME_SPLIT);
         if (secs.length > 1) {
             for (int i = 0; i < secs.length && i < TIME_BASE.length; i++) {
@@ -128,6 +120,15 @@ public class DateParser extends ParamParser<Date> {
         calendar.set(Calendar.SECOND, 0);
         calendar.set(Calendar.MILLISECOND, 0);
         return calendar.getTime().getTime();
+    }
+
+    private boolean contains(char[] chars, char c) {
+        for (char aChar : chars) {
+            if (aChar == c) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public final static class NowDateValueParser implements NullValueParser<Date> {

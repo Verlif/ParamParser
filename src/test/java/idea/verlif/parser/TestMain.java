@@ -16,15 +16,15 @@ public class TestMain {
         calendar.set(Calendar.MILLISECOND, 0);
         System.out.println(calendar.getTime());
         ParamParserService pps = new ParamParserService();
-        ParamParser<Object> dateParser = pps.getParser(Date.class);
+        ParamParser<Date> dateParser = pps.getParser(Date.class);
         dateParser.setNullValueParser(new DateParser.NowDateValueParser());
         System.out.println(pps.getParser(boolean.class));
         System.out.println(pps.getParser(Boolean.class));
-        System.out.println(dateParser.parser("2022-1-3 16:50:00"));
-        System.out.println(dateParser.parser("2022-01-31 16:50:00"));
-        System.out.println(dateParser.parser("2022-1-3 16:50"));
-        System.out.println(dateParser.parser("2022/1-3 16:50:00.1"));
-        System.out.println(dateParser.parser("16:50:00"));
-        System.out.println(dateParser.parser("2022-1-3"));
+        System.out.println(dateParser.convert("2022-1-3 16:50:00"));
+        System.out.println(dateParser.convert("2022-01-31 16:50:00"));
+        System.out.println(dateParser.convert("2022-1-3 16:50"));
+        System.out.println(dateParser.convert("2022/1-3 16:50:00.1"));
+        System.out.println(dateParser.convert("16:50:00"));
+        System.out.println(dateParser.convert("2022-1-3"));
     }
 }

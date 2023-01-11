@@ -14,7 +14,7 @@ public class DoubleParser extends ParamParser<Double> {
     }
 
     @Override
-    public Double parser(String param) {
+    public Double convert(String param) {
         return Double.parseDouble(param);
     }
 

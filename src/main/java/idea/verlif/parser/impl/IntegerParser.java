@@ -14,7 +14,7 @@ public class IntegerParser extends ParamParser<Integer> {
     }
 
     @Override
-    public Integer parser(String param) {
+    public Integer convert(String param) {
         return Integer.parseInt(param);
     }
 

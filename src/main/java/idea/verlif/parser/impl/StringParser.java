@@ -14,7 +14,7 @@ public class StringParser extends ParamParser<String> {
     }
 
     @Override
-    public String parser(String param) {
+    public String convert(String param) {
         return param;
     }
 
