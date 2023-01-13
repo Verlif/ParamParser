@@ -55,6 +55,25 @@ public abstract class ParamParser<T> {
     }
 
     /**
+     * 文本转换为对象
+     *
+     * @param param        文本内容。
+     * @param defaultValue 取值为null时的替换内容。
+     * @return 解析出的对象
+     */
+    public T parse(String param, T defaultValue) {
+        if (param == null) {
+            return defaultValue;
+        }
+        T t = convert(param);
+        if (t == null) {
+            return defaultValue;
+        } else {
+            return t;
+        }
+    }
+
+    /**
      * 文本转义为对象
      *
      * @param param 文本内容，不为空。

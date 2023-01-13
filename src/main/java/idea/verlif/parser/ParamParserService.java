@@ -40,7 +40,7 @@ public class ParamParserService {
     }
 
     /**
-     * 获取指定类型的参数解析器
+     * 获取指定类型的参数解析器。优先父类解析器。
      *
      * @param cl  参数类型
      * @param <T> 参数泛型
