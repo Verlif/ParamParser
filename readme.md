@@ -104,6 +104,7 @@
    / 设定自定义空值处理
    doubleParser.setNullValueParser(new DoubleParser.AdvanceValueParser(2));
    System.out.println(doubleParser.parse(null));       // 结果输出 2.0
+   System.out.println(pps.parse(Double.class, null));  // 结果输出 2.0
    // 添加自定义的解析器
    pps.addOrReplace(new TestParser());
    ```
