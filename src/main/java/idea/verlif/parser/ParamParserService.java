@@ -15,11 +15,18 @@ public class ParamParserService {
     public ParamParserService() {
         parserMap = new HashMap<>();
 
-        addOrReplace(new StringParser());
-        addOrReplace(new IntegerParser());
-        addOrReplace(new DoubleParser());
+        addOrReplace(new ByteParser());
         addOrReplace(new BooleanParser());
+        addOrReplace(new ShortParser());
+        addOrReplace(new IntegerParser());
+        addOrReplace(new LongParser());
+        addOrReplace(new CharacterParser());
+        addOrReplace(new StringParser());
+        addOrReplace(new FloatParser());
+        addOrReplace(new DoubleParser());
         addOrReplace(new DateParser());
+        addOrReplace(new BigDecimalParser());
+        addOrReplace(new BigIntegerParser());
     }
 
     /**

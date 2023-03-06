@@ -28,10 +28,9 @@
 
     目前的参数解析器中内置了：
 
-    * 处理`String`的`StringParser`
-    * 处理`Integer`与`int`的`IntegerParser`
-    * 处理`Double`与`double`的`DoubleParser`
-    * 处理`Boolean`与`boolean`的`BooleanParser`
+    * 处理8种基础属性的基础属性解析器
+    * 处理`BigDecimal`的`BigDecimalParser`
+    * 处理`BigInteger`的`BigIntegerParser`
     * 处理`Date`（允许格式 - `hh:mm:ss`、`yyyy/MM/dd`、`yyyy/MM/dd hh:mm:ss`等）的`DateParser`
 
 3. 支持的功能

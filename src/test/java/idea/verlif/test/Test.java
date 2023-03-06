@@ -4,8 +4,8 @@ import idea.verlif.parser.ParamParser;
 import idea.verlif.parser.ParamParserService;
 import idea.verlif.parser.impl.DateParser;
 import idea.verlif.parser.impl.DoubleParser;
-import idea.verlif.parser.impl.IntegerParser;
 
+import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -34,6 +34,6 @@ public class Test {
         System.out.println(dateParser.parse("2022/1-3 16:50:21.1"));
         System.out.println(dateParser.parse("16:50:21"));
         System.out.println(dateParser.parse("2022-1-3"));
-
+        System.out.println(pps.parse(BigDecimal.class, "2.4123213123"));
     }
 }
