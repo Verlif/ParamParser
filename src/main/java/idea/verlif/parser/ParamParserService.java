@@ -2,6 +2,7 @@ package idea.verlif.parser;
 
 import idea.verlif.parser.impl.*;
 
+import java.lang.reflect.Array;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -12,8 +13,11 @@ public class ParamParserService {
 
     private final Map<Class<?>, ParamParser<?>> parserMap;
 
+    private ArraySplitter arraySplitter;
+
     public ParamParserService() {
         parserMap = new HashMap<>();
+        arraySplitter = new SpaceArraySplitter();
 
         addOrReplace(new ByteParser());
         addOrReplace(new BooleanParser());
@@ -27,6 +31,14 @@ public class ParamParserService {
         addOrReplace(new DateParser());
         addOrReplace(new BigDecimalParser());
         addOrReplace(new BigIntegerParser());
+    }
+
+    public ArraySplitter getArraySplitter() {
+        return arraySplitter;
+    }
+
+    public void setArraySplitter(ArraySplitter arraySplitter) {
+        this.arraySplitter = arraySplitter;
     }
 
     /**
@@ -94,6 +106,24 @@ public class ParamParserService {
                 return t;
             }
         }
+        // 对数组进行重新处理
+        if (cl.isArray() && param.length() > 0) {
+            String[] split = arraySplitter.split(param);
+            Class<?> componentType = cl.getComponentType();
+            Object array = Array.newInstance(componentType, split.length);
+            int count = 0;
+            for (int i = 0; i < split.length; i++) {
+                Object parsed = parse(componentType, split[i]);
+                if (parsed != null) {
+                    count++;
+                }
+                Array.set(array, i, parsed);
+            }
+            if (count > 0) {
+                return (T) array;
+            }
+        }
         return defaultVal;
     }
+
 }
