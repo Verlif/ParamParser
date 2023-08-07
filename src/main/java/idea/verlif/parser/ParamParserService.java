@@ -107,7 +107,7 @@ public class ParamParserService {
             }
         }
         // 对数组进行重新处理
-        if (cl.isArray() && param.length() > 0) {
+        if (cl.isArray() && !param.isEmpty()) {
             String[] split = arraySplitter.split(param);
             Class<?> componentType = cl.getComponentType();
             Object array = Array.newInstance(componentType, split.length);

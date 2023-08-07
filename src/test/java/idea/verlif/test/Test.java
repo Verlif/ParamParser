@@ -35,6 +35,7 @@ public class Test {
         System.out.println(dateParser.parse("2022/1-3 16:50:21.1"));
         System.out.println(dateParser.parse("16:50:21"));
         System.out.println(dateParser.parse("2022-1-3"));
+        System.out.println(pps.parse(Date.class, "2022-1-3 16:50:21.1"));
         System.out.println(pps.parse(BigDecimal.class, "2.4123213123"));
         System.out.println(Arrays.toString(pps.parse(BigDecimal[].class, "3122   3123 ", new BigDecimal[]{BigDecimal.valueOf(321)})));
     }

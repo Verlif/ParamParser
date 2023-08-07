@@ -1,8 +1,10 @@
 # ParamParser
+
 参数解析器
 
 将String转换为各类对象的小组件。  
-主要用于框架或是组件使用，通过向`ParamParserService`中添加自己的`ParamParser`来实现自定义的`String`转换。
+例如：`new ParamParserService().parse(Date.class, "2022-1-3 16:50:21.1")`会返回对应时间的`Date`对象。  
+主要用于框架或是组件使用，通过向`ParamParserService`中添加自己的`ParamParser`来实现自定义的`String`到对象的转换。
 
 ## 用途
 
@@ -26,7 +28,7 @@
 
 2. 统一参数解析接口
 
-    目前的参数解析器中内置了：
+   目前的参数解析器中内置了：
 
     * 处理8种基础属性的基础属性解析器
     * 处理`BigDecimal`的`BigDecimalParser`
@@ -35,14 +37,15 @@
 
 3. 支持的功能
 
-   1. 字符串转对象
-   2. `null`值自定义处理
+    1. 字符串转对象
+    2. `null`值自定义处理
+    3. 一维数组转换
 
 ## 添加依赖
 
 1. 添加Jitpack仓库源
 
-    maven
+   maven
 
     ```xml
     <repositories>
@@ -53,7 +56,7 @@
     </repositories>
     ```
 
-    Gradle
+   Gradle
 
     ```text
     allprojects {

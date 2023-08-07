@@ -38,7 +38,7 @@ public class DateParser extends ParamParser<Date> {
     @Override
     public Date convert(String param) {
         String trim;
-        if (param == null || (trim = param.trim()).length() == 0) {
+        if (param == null || (trim = param.trim()).isEmpty()) {
             return new Date();
         }
         // 通过空格隔开日期与时间
@@ -99,7 +99,7 @@ public class DateParser extends ParamParser<Date> {
         String sec;
         // 存在毫秒
         if (msPoint > -1) {
-            count += Integer.parseInt(time.substring(msPoint));
+            count += Integer.parseInt(time.substring(msPoint + 1));
             sec = time.substring(0, msPoint);
         } else {
             sec = time;
